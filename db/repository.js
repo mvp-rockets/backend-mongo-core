@@ -15,17 +15,13 @@ let url = '';
 url = `mongodb://${username}:${password}@${host}:${port}/${database}?authSource=admin`;
 
 console.log('db-url', url);
-mongoose.connect(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
+mongoose.connect(url).then(() => {
     console.log('connected');
 }).catch((error) => {
     console.log(error);
 });
 
 module.exports.getConnectionState = () => new Promise((resolve, reject) => {
-    console.log("i am here")
     resolve(mongoose.connection.readyState)
 });
 

@@ -1,0 +1,22 @@
+image: node:16.16.0
+pipelines:
+  default:
+    - step:
+        name: test
+        caches:
+          - node
+        script:
+          - apt-get update
+          - npm ci
+          - npm run db:create --env=ci
+          - npm run db:migrate --env=ci
+          - npm run test:ci
+        services:
+          - mongo
+definitions:
+  services:
+    mongo:
+      image: mongo
+      variables:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: rootpassword
